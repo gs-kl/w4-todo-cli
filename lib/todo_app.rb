@@ -31,7 +31,7 @@ class TodoApp < CommandLineApp
     if @projects == []
       "none"
     else
-      @projects.join
+      @projects.join(" ")
     end
   end
 
