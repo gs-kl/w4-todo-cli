@@ -46,6 +46,12 @@ describe TodoApp do
 
         expect(output).to include("Projects:\n  Chores Groceries")
       end
+      it "can edit one among several projects" do
+        simulate_user_input("create", "Chores", "create", "Groceries", "edit", "Groceries", "Bookstore", "list", "quit")
+        app.run
+
+        expect(output).to include("Projects:\n  Chores Bookstore")
+      end
     end
 
   
