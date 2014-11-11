@@ -10,12 +10,8 @@ class TodoApp < CommandLineApp
       @name = name
       @tasks = []
     end
-  end
-
-  class Task
-    def initialize name
-      @name = name
-      @completed = false
+    def add_task name
+      @tasks << name
     end
   end
 
@@ -80,10 +76,33 @@ class TodoApp < CommandLineApp
         puts "Tasks:"
         if project_object.tasks.length == 0
           puts "  none"
+        else
+          project_object.tasks.each do |a|
+            puts "  #{a}"
+          end
         end
       elsif input == "create"
         puts "Enter name of task to create:"
-        @tasks << gets.chomp
+        to_add = gets.chomp
+        project_object.add_task to_add
+      elsif input == "rename"
+        puts "Enter name of task to rename:"
+        to_rename = gets.chomp
+        if project_object.tasks.include? to_rename
+          puts "Enter new name:"
+          new_name = gets.chomp
+          project_object.tasks[project_object.tasks.index(to_rename)] = new_name
+        else
+          puts "task not found: '#{to_rename}'"
+        end
+      elsif input == "complete"
+        puts "Enter name of task to complete:"
+        to_complete = gets.chomp
+        if project_object.tasks.include? to_complete
+          project_object.tasks[project_object.tasks.index(to_complete)] = "#{to_complete}: completed"
+        else
+          puts "task not found: '#{to_complete}'"
+        end
       end
       input = gets.chomp
       print_project_menu

@@ -68,12 +68,12 @@ describe TodoApp do
           simulate_user_input(project_setup_commands, task_creation_commands, 'list', 'back', 'quit')
         end
 
-        xit "should not show projects" do
+        it "should not show projects" do
           app.run
           expect(output).to_not include("Projects:\n  Chores")
         end
 
-        xit "should show new tasks" do
+        it "should show new tasks" do
           app.run
           expect(output).to include("do the laundry")
           expect(output).to include("iron shirts")
@@ -81,17 +81,17 @@ describe TodoApp do
       end
     end
 
-    describe 'editing a task' do
+    describe 'renaming a task' do
       describe 'when the task is found' do
         before do
           simulate_user_input(
             project_setup_commands,
             task_creation_commands,
-            'edit', 'iron shirts', 'iron clothes', 'list', 'back', 'quit'
+            'rename', 'iron shirts', 'iron clothes', 'list', 'back', 'quit'
           )
         end
 
-        xit "should update the task in the list" do
+        it "should update the task in the list" do
           app.run
           expect(output).to include("iron clothes")
           expect(output).not_to include("iron shirts")
@@ -103,11 +103,11 @@ describe TodoApp do
           simulate_user_input(
             project_setup_commands,
             task_creation_commands,
-            'edit', 'not here', 'back', 'quit'
+            'rename', 'not here', 'back', 'quit'
           )
         end
 
-        xit "should report and return to normal menu" do
+        it "should report and return to normal menu" do
           app.run
           expect(output).to include("task not found: 'not here'")
         end
@@ -124,7 +124,7 @@ describe TodoApp do
           )
         end
 
-        xit "should list the task as completed" do
+        it "should list the task as completed" do
           app.run
           expect(output).to include("do the laundry: completed")
         end
@@ -139,13 +139,13 @@ describe TodoApp do
           )
         end
 
-        xit "should still have all its tasks" do
+        it "should still have all its tasks" do
           app.run
           expect(output).to include('do the laundry')
           expect(output).to include('iron shirts')
         end
 
-        xit "should report that it couldn't find the task" do
+        it "should report that it couldn't find the task" do
           app.run
           expect(output).to include("task not found: 'not here'")
         end
