@@ -48,14 +48,14 @@ describe TodoApp do
 
     describe 'listing' do
       describe 'when there are no tasks' do
-        xit "does not show projects" do
+        it "does not show projects" do
           simulate_user_input(project_setup_commands,'list', 'back', 'quit')
           app.run
 
           expect(output).to_not include("Projects:\n  Chores")
         end
 
-        xit "shows 'none'" do
+        it "shows 'none'" do
           simulate_user_input(project_setup_commands,'list', 'back', 'quit')
           app.run
 

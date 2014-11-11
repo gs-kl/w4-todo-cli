@@ -38,7 +38,7 @@ class TodoApp < CommandLineApp
         new_name = gets.chomp
         @projects[index].name = new_name
       elsif input == "list"
-        puts "Projects:\n  #{display_projects}".chomp
+        puts "Projects:\n  #{list_projects}".chomp
       elsif input == "edit"
         puts "Please enter the name of the project to be edited:"
         @project_to_edit = gets.chomp
@@ -49,19 +49,15 @@ class TodoApp < CommandLineApp
         index = @projects.find_index do |proj|
           proj.name == proj_to_delete
         end
-        print proj_to_delete
-        print index
-        print @projects
         @projects.slice!(index)
-        print @projects 
       end
       print_main_menu
       input = gets.chomp
     end
   end
 
-  def display_projects
-    if @projects == []
+  def list_projects
+    if @projects.length == 0
       "none"
     else
       output = ""
@@ -73,9 +69,23 @@ class TodoApp < CommandLineApp
   end
 
   def edit_project project_to_edit
-    input = gets.chomp
+    project_object_index = @projects.find_index do |a|
+      a.name == @project_to_edit
+    end
+   
+    project_object = @projects[project_object_index]
+
     print_project_menu
+    input = gets.chomp
     while input != "back"
+      if input == "list"
+        puts "Tasks:"
+        if project_object.tasks.length == 0
+          puts "  none"
+        end
+      end
+      input = gets.chomp
+      print_project_menu
     end
   end
 
