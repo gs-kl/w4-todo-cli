@@ -28,12 +28,12 @@ describe TodoApp do
       end
     end
 
-    describe 'editing projects' do
+    describe 'renaming projects' do
       it "existing projects can be renamed" do
-        simulate_user_input("create", "Chores", "edit", "Chores", "Groceries", "list", "quit")
+        simulate_user_input("create", "Chores", "rename", "Chores", "Groceries", "list", "quit")
         app.run
 
-        expect(output).to include("Please enter the project name to edit:\n")
+        expect(output).to include("Please enter the project name to rename:\n")
         expect(output).to include("Please enter the new project name:\n")
         expect(output).to include("Projects:\n  Groceries")
       end
@@ -46,8 +46,8 @@ describe TodoApp do
 
         expect(output).to include("Projects:\n  Chores Groceries")
       end
-      it "can edit one among several projects" do
-        simulate_user_input("create", "Chores", "create", "Groceries", "edit", "Groceries", "Bookstore", "list", "quit")
+      it "can rename one among several projects" do
+        simulate_user_input("create", "Chores", "create", "Groceries", "rename", "Groceries", "Bookstore", "list", "quit")
         app.run
 
         expect(output).to include("Projects:\n  Chores Bookstore")

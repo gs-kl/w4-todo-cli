@@ -21,11 +21,11 @@ class TodoApp < CommandLineApp
         puts "Please enter the project name to delete:"
         projecttodelete = gets.chomp
         @projects.slice!(@projects.rindex(projecttodelete))
-      elsif input == "edit"
-        puts "Please enter the project name to edit:"
-        projecttoedit = gets.chomp
+      elsif input == "rename"
+        puts "Please enter the project name to rename:"
+        projecttorename = gets.chomp
         puts "Please enter the new project name:"
-        @projects[@projects.rindex(projecttoedit)] = gets.chomp
+        @projects[@projects.rindex(projecttorename)] = gets.chomp
       elsif input == "list"
         puts "Projects:\n  #{display_projects}".chomp
       end
