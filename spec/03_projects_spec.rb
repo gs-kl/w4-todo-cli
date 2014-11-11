@@ -55,7 +55,7 @@ describe TodoApp do
     end
 
     describe 'deleting projects' do
-      xit "existing projects can be removed" do
+      it "existing projects can be removed" do
         simulate_user_input(
           "create", "Chores",
           "delete", "Chores",

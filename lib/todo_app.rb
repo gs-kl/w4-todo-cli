@@ -10,11 +10,17 @@ class TodoApp < CommandLineApp
     puts "'list' to list projects"
     puts "'create' to create a new project"
     puts "'edit' to edit a project"
+    puts "'rename' to rename a project"
+    puts "'delete' to delete a project"
     input = gets.chomp
     while input != "quit"
       if input == "create"
         puts "Please enter the new project name:"
         @projects << gets.chomp
+      elsif input == "delete"
+        puts "Please enter the project name to delete:"
+        projecttodelete = gets.chomp
+        @projects.slice!(@projects.rindex(projecttodelete))
       elsif input == "edit"
         puts "Please enter the project name to edit:"
         projecttoedit = gets.chomp
