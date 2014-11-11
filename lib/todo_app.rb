@@ -4,31 +4,58 @@ class TodoApp < CommandLineApp
     @output = output
   end
 
+  class Project
+    attr_accessor :name, :tasks
+    def initialize name
+      @name = name
+      @tasks = []
+    end
+  end
+
+  class Task
+    def initialize name
+      @name = name
+      @completed = false
+    end
+  end
+
   def run
     puts @projects = []
-    puts "Welcome!"
-    puts "'list' to list projects"
-    puts "'create' to create a new project"
-    puts "'edit' to edit a project"
-    puts "'rename' to rename a project"
-    puts "'delete' to delete a project"
+    print_main_menu
     input = gets.chomp
     while input != "quit"
       if input == "create"
         puts "Please enter the new project name:"
-        @projects << gets.chomp
-      elsif input == "delete"
-        puts "Please enter the project name to delete:"
-        projecttodelete = gets.chomp
-        @projects.slice!(@projects.rindex(projecttodelete))
+        name = gets.chomp
+        @projects << Project.new(name)
       elsif input == "rename"
         puts "Please enter the project name to rename:"
-        projecttorename = gets.chomp
+        project_to_rename = gets.chomp
+        index = @projects.find_index do |proj|
+          proj.name == project_to_rename
+        end
         puts "Please enter the new project name:"
-        @projects[@projects.rindex(projecttorename)] = gets.chomp
+        new_name = gets.chomp
+        @projects[index].name = new_name
       elsif input == "list"
         puts "Projects:\n  #{display_projects}".chomp
+      elsif input == "edit"
+        puts "Please enter the name of the project to be edited:"
+        @project_to_edit = gets.chomp
+        edit_project @project_to_edit
+      elsif input == "delete"
+        puts "Please enter the project name to delete:"
+        proj_to_delete = gets.chomp
+        index = @projects.find_index do |proj|
+          proj.name == proj_to_delete
+        end
+        print proj_to_delete
+        print index
+        print @projects
+        @projects.slice!(index)
+        print @projects 
       end
+      print_main_menu
       input = gets.chomp
     end
   end
@@ -37,8 +64,37 @@ class TodoApp < CommandLineApp
     if @projects == []
       "none"
     else
-      @projects.join(" ")
+      output = ""
+      @projects.each do |a|
+        output << a.name
+      end
+      output
     end
+  end
+
+  def edit_project project_to_edit
+    input = gets.chomp
+    print_project_menu
+    while input != "back"
+    end
+  end
+
+  def print_project_menu
+    puts "Editing Project: #{@project_to_edit}"
+    puts "'list' to list tasks"
+    puts "'create' to create a new task"
+    puts "'edit' to edit a task"
+    puts "'complete' to complete a task and remove it from the list"
+  end
+
+  def print_main_menu
+    puts "Welcome!"
+    puts "'list' to list projects"
+    puts "'create' to create a new project"
+    puts "'edit' to edit a project"
+    puts "'rename' to rename a project"
+    puts "'delete' to delete a project"
+    puts "'quit' to quit"
   end
 
   def real_puts message=""

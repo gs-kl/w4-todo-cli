@@ -13,21 +13,21 @@ describe TodoApp do
     let(:task_creation_commands) { ['create', 'do the laundry', 'create', 'iron shirts'] }
 
     describe 'new menu when editing a project' do
-      xit "includes the project name" do
+      it "includes the project name" do
         simulate_user_input(project_setup_commands, 'back', 'quit')
         app.run
 
         expect(output).to include("Editing Project: Chores")
       end
 
-      xit "gives instruction for listing tasks" do
+      it "gives instruction for listing tasks" do
         simulate_user_input(project_setup_commands, 'back', 'quit')
         app.run
 
         expect(output).to include("'list' to list tasks")
       end
 
-      xit "gives instructions for other tasks" do
+      it "gives instructions for other tasks" do
         simulate_user_input(project_setup_commands, 'back', 'quit')
         app.run
 
@@ -38,7 +38,7 @@ describe TodoApp do
     end
 
     describe 'going back' do
-      xit "reprints the projects instructions" do
+      it "reprints the projects instructions" do
         simulate_user_input(project_setup_commands, 'back', 'quit')
         app.run
 
