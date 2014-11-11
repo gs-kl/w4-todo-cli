@@ -72,9 +72,7 @@ class TodoApp < CommandLineApp
     project_object_index = @projects.find_index do |a|
       a.name == @project_to_edit
     end
-   
     project_object = @projects[project_object_index]
-
     print_project_menu
     input = gets.chomp
     while input != "back"
@@ -83,6 +81,9 @@ class TodoApp < CommandLineApp
         if project_object.tasks.length == 0
           puts "  none"
         end
+      elsif input == "create"
+        puts "Enter name of task to create:"
+        @tasks << gets.chomp
       end
       input = gets.chomp
       print_project_menu
