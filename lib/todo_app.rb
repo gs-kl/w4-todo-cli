@@ -16,6 +16,14 @@ class TodoApp < CommandLineApp
     end
   end
 
+  def print_text text
+    puts text
+  end
+
+  def get_input
+    gets.chomp
+  end
+
   def run
     print_main_menu
     input = gets.chomp
@@ -35,46 +43,50 @@ class TodoApp < CommandLineApp
       input = gets.chomp
     end
   end
-
+  
   def delete_project
-    puts "Please enter the project name to delete:"
-    project_to_delete = gets.chomp
-    index = @projects.find_index {|proj| proj.name == project_to_delete}
-    @projects.slice!(index)
+    print_text "Please enter the project name to delete:"
+    project_to_delete = get_input
+    @projects.delete(@projects.detect{|proj| proj.name == project_to_delete})
   end
 
   def rename_project
     puts "Please enter the project name to rename:"
-    project_to_rename = gets.chomp
-    index = @projects.find_index {|proj| proj.name == project_to_rename}
+    project_to_rename = get_input
     puts "Please enter the new project name:"
-    new_name = gets.chomp
-    @projects[index].name = new_name
+    new_name = get_input
+    @projects.each do |proj|
+      if proj.name == project_to_rename
+        proj.name = new_name
+      end
+    end
   end
 
   def create_project
     puts "Please enter the new project name:"
-    name = gets.chomp
+    name = get_input
     @projects << Project.new(name)
   end
 
   def list_projects
-    puts "Projects:"
+    print_text "Projects:"
     if @projects.length == 0
-      puts "  none"
+      print_text "  none"
     else
-      @projects.each {|a| puts "  #{a.name}"}
+      @projects.each {|a| print_text "  #{a.name}"}
     end
   end
 
   def edit_project
     puts "Please enter the name of the project to be edited:"
-    
-    project_to_edit = gets.chomp
-    index = @projects.find_index {|proj| proj.name == project_to_edit}
-    project_object = @projects[index]
-    
-    print_project_menu project_to_edit
+    project_to_edit = get_input
+    project_object = @projects.detect {|proj| proj.name == project_to_edit}
+    task_menu project_object
+  end
+
+
+  def task_menu project_object
+    print_project_menu project_object.name
     input = gets.chomp
     while input != "back"
       if input == "list"
@@ -109,10 +121,13 @@ class TodoApp < CommandLineApp
           puts "task not found: '#{to_complete}'"
         end
       end
+
       input = gets.chomp
-      print_project_menu project_to_edit
+      print_project_menu project_object.name
     end
   end
+
+
 
   def print_project_menu project_to_edit
     puts "Editing Project: #{project_to_edit}"
