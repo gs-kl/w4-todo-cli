@@ -36,7 +36,6 @@ class TodoApp < CommandLineApp
     end
   end
 
-
   def delete_project
     puts "Please enter the project name to delete:"
     project_to_delete = gets.chomp

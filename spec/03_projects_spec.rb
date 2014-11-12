@@ -39,21 +39,6 @@ describe TodoApp do
       end
     end
 
-    describe 'multiple projects' do
-      xit "can add and list multiple projects" do
-        simulate_user_input("create", "Chores", "create", "Groceries", "list", "quit")
-        app.run
-
-        expect(output).to include("Projects:\n  Chores Groceries")
-      end
-      xit "can rename one among several projects" do
-        simulate_user_input("create", "Chores", "create", "Groceries", "rename", "Groceries", "Bookstore", "list", "quit")
-        app.run
-
-        expect(output).to include("Projects:\n  Chores Bookstore")
-      end
-    end
-
     describe 'deleting projects' do
       it "existing projects can be removed" do
         simulate_user_input(
