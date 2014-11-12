@@ -2,6 +2,7 @@ class TodoApp < CommandLineApp
   def initialize(input, output)
     @input = input
     @output = output
+    @projects = []
   end
 
   class Project
@@ -16,60 +17,65 @@ class TodoApp < CommandLineApp
   end
 
   def run
-    puts @projects = []
     print_main_menu
     input = gets.chomp
     while input != "quit"
       if input == "create"
-        puts "Please enter the new project name:"
-        name = gets.chomp
-        @projects << Project.new(name)
+        create_project
       elsif input == "rename"
-        puts "Please enter the project name to rename:"
-        project_to_rename = gets.chomp
-        index = @projects.find_index do |proj|
-          proj.name == project_to_rename
-        end
-        puts "Please enter the new project name:"
-        new_name = gets.chomp
-        @projects[index].name = new_name
+        rename_project
       elsif input == "list"
-        puts "Projects:\n  #{list_projects}".chomp
+        list_projects
       elsif input == "edit"
-        puts "Please enter the name of the project to be edited:"
-        @project_to_edit = gets.chomp
-        edit_project @project_to_edit
+        edit_project
       elsif input == "delete"
-        puts "Please enter the project name to delete:"
-        proj_to_delete = gets.chomp
-        index = @projects.find_index do |proj|
-          proj.name == proj_to_delete
-        end
-        @projects.slice!(index)
+        delete_project
       end
       print_main_menu
       input = gets.chomp
     end
   end
 
+
+  def delete_project
+    puts "Please enter the project name to delete:"
+    project_to_delete = gets.chomp
+    index = @projects.find_index {|proj| proj.name == project_to_delete}
+    @projects.slice!(index)
+  end
+
+  def rename_project
+    puts "Please enter the project name to rename:"
+    project_to_rename = gets.chomp
+    index = @projects.find_index {|proj| proj.name == project_to_rename}
+    puts "Please enter the new project name:"
+    new_name = gets.chomp
+    @projects[index].name = new_name
+  end
+
+  def create_project
+    puts "Please enter the new project name:"
+    name = gets.chomp
+    @projects << Project.new(name)
+  end
+
   def list_projects
+    puts "Projects:"
     if @projects.length == 0
-      "none"
+      puts "  none"
     else
-      output = ""
-      @projects.each do |a|
-        output << a.name
-      end
-      output
+      @projects.each {|a| puts "  #{a.name}"}
     end
   end
 
-  def edit_project project_to_edit
-    project_object_index = @projects.find_index do |a|
-      a.name == @project_to_edit
-    end
-    project_object = @projects[project_object_index]
-    print_project_menu
+  def edit_project
+    puts "Please enter the name of the project to be edited:"
+    
+    project_to_edit = gets.chomp
+    index = @projects.find_index {|proj| proj.name == project_to_edit}
+    project_object = @projects[index]
+    
+    print_project_menu project_to_edit
     input = gets.chomp
     while input != "back"
       if input == "list"
@@ -105,12 +111,12 @@ class TodoApp < CommandLineApp
         end
       end
       input = gets.chomp
-      print_project_menu
+      print_project_menu project_to_edit
     end
   end
 
-  def print_project_menu
-    puts "Editing Project: #{@project_to_edit}"
+  def print_project_menu project_to_edit
+    puts "Editing Project: #{project_to_edit}"
     puts "'list' to list tasks"
     puts "'create' to create a new task"
     puts "'edit' to edit a task"
